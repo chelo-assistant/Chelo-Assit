@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHELO Assistant — Prototype</title>
+<style>
+:root{--navy:#071a38;--blue:#0875ed;--ink:#101b32;--muted:#62708a;--line:#e4eaf3;--bg:#f3f6fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.4 Arial,Helvetica,sans-serif;color:var(--ink)}
+.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}
+aside{background:linear-gradient(160deg,#071a38,#102b52);color:white;padding:20px 14px;display:flex;flex-direction:column;gap:20px}
+.brand{font-size:25px;font-weight:800;line-height:1.05;padding:5px 10px}.brand span{display:block;color:#ff9c18;font-size:21px;margin-left:64px}
+nav{display:grid;gap:6px}nav button{border:0;background:transparent;color:#edf4ff;text-align:left;padding:13px 14px;border-radius:12px;font-size:15px;cursor:pointer}nav button.active,nav button:hover{background:#0875ed}
+.asidefoot{margin-top:auto;background:#203d65;padding:14px;border-radius:14px;font-weight:bold}.asidefoot small{display:block;color:#c7d4e8;font-weight:normal;margin-top:4px}
+main{padding:22px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px}.top h1{font-size:25px;margin:0 0 4px}.muted{color:var(--muted)}.profile{font-weight:bold;text-align:right}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(125px,1fr));gap:12px;margin-bottom:16px}.metric,.panel,.business,.promo{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 4px 16px #1a31500a}.metric{font-weight:bold}.metric b{display:block;font-size:25px;margin-top:5px}.metric:nth-child(1){background:#e7f2ff}.metric:nth-child(2){background:#e4f8ef}.metric:nth-child(3){background:#fff4d9}.metric:nth-child(4){background:#ffe8e9}.metric:nth-child(5){background:#f0eaff}
+h2{font-size:18px;margin:0 0 14px}.quick{margin-bottom:15px}.actions{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.actions button,.primary{border:0;border-radius:13px;background:#0875ed;color:white;padding:15px 8px;font-weight:bold;cursor:pointer}.actions button:first-child{background:#08ad70}.actions button:nth-child(4){background:#7950d8}.actions button:nth-child(5){background:#e8e0ff;color:#5335a6}
+.columns{display:grid;grid-template-columns:1.1fr 1.1fr .9fr;gap:14px;align-items:start}.panel{margin-bottom:13px}.assistantbox{display:flex;gap:13px;align-items:center;background:#f7faff;border-radius:13px;padding:13px;margin-bottom:14px}.bot{font-size:42px}.suggestions{display:grid;gap:8px}.suggestions button{background:#fff;border:1px solid #d9e2f0;border-radius:24px;padding:10px;text-align:left;cursor:pointer}
+.item{padding:10px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.time{font-weight:bold;display:inline-block;width:58px}.tag{color:#0875ed;font-weight:bold}.business img{max-width:100%}.business h2{margin:10px 0}.business p{margin:8px 0}.business button{width:100%;background:white;color:#0875ed;border:1px solid #0875ed;border-radius:10px;padding:11px;font-weight:bold;cursor:pointer}.promo{background:#fff8e9;margin-bottom:13px}.promo button{background:#0875ed;color:white;border:0;border-radius:9px;padding:10px;cursor:pointer}.chatrow{display:flex;gap:6px;margin-top:14px}.chatrow input{min-width:0;flex:1;border:1px solid #d5deeb;border-radius:10px;padding:12px}.chatrow button{border:0;background:#0875ed;color:white;border-radius:10px;padding:0 16px;cursor:pointer}
+.notice{display:none;background:#e8f5ff;border:1px solid #b8dcff;padding:12px;border-radius:10px;margin:0 0 14px}.notice.show{display:block}
+@media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.columns{grid-template-columns:1fr 1fr}.rightcol{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}}
+@media(max-width:700px){.app{grid-template-columns:1fr}aside{padding:12px}.brand{font-size:21px}.brand span{display:inline;margin-left:8px}nav{display:flex;overflow:auto}nav button{white-space:nowrap;padding:10px} .asidefoot{display:none}main{padding:14px}.top{align-items:flex-start}.top h1{font-size:20px}.profile{font-size:12px}.metrics{grid-template-columns:repeat(2,1fr);gap:8px}.metric{padding:12px}.metric b{font-size:21px}.actions{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}.rightcol{grid-column:auto;display:block}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+<div class="brand">🤖 CHELO <span>Assistant</span></div>
+<nav id="nav">
+<button class="active" data-page="Dashboard">⌂　Dashboard</button><button data-page="Customers">♙　Customers</button><button data-page="Quotes">▤　Quotes</button><button data-page="Invoices">▣　Invoices</button><button data-page="Orders & Jobs">⚒　Orders & Jobs</button><button data-page="Bookings">▦　Bookings</button><button data-page="Follow-ups">☑　Follow-ups　🔴 3</button><button data-page="Marketing">⚑　Marketing</button><button data-page="AI Assistant">♧　AI Assistant</button><button data-page="Business Profile">▣　Business Profile</button><button data-page="Settings">⚙　Settings</button>
+</nav>
+<div class="asidefoot">🤖 CHELO Assistant<small>Run · Manage · Grow<br>Your Business</small></div>
+</aside>
+<main>
+<div class="top"><div><h1>Good morning, Christo 👋</h1><div class="muted">Here's what's happening with Chelo Plumbing today.</div></div><div class="profile">🔔　❔　 C　 Christo Aucamp<br><span class="muted">Chelo Plumbing</span></div></div>
+<div class="notice" id="notice"></div>
+<section class="metrics">
+<div class="metric">▣　Today's Jobs<b>3</b></div><div class="metric">✓　Completed<b>2</b></div><div class="metric">▤　Quotes Sent<b>4</b></div><div class="metric">◉　Outstanding<b>R 2,850</b></div><div class="metric">♙　Total Customers<b>128</b></div>
+</section>
+<section class="panel quick"><h2>Quick Actions</h2><div class="actions"><button data-action="New quote">▤<br>New Quote</button><button data-action="Create invoice">▧<br>Create Invoice</button><button data-action="Book a job">▦<br>Book Job</button><button data-action="Add customer">♙<br>Add Customer</button><button data-action="Create marketing post">⚑<br>Marketing Post</button></div></section>
+<div class="columns">
+<div class="panel">
+<div class="assistantbox"><div class="bot">🤖</div><div><h2>CHELO AI Assistant</h2><span class="muted">Your business assistant for quotes, invoices, bookings, follow-ups and growing your business.</span></div></div>
+<div class="suggestions"><button data-action="Create a quote for a customer">✧　Create a quote for a customer</button><button data-action="Follow up on unpaid invoices">◷　Follow up on unpaid invoices</button><button data-action="Create a marketing post">⚑　Create a marketing post</button><button data-action="Show my jobs for today">⚒　Show my jobs for today</button></div>
+<div class="chatrow"><input id="chat" placeholder="Type a request..."><button id="send">➤</button></div><div class="muted" id="reply" style="padding-top:8px"></div>
+</div>
+<div>
+<section class="panel"><h2>▦　Today's Schedule <span class="tag" style="float:right">View Calendar</span></h2>
+<div class="item"><span class="time">10:00</span>　Fix leaking pipe – Mr. Mokoena<br><span class="muted" style="margin-left:64px">Lagos, Ikeja</span></div>
+<div class="item"><span class="time">12:30</span>　Install water heater – Mrs. Okafor<br><span class="muted" style="margin-left:64px">Lagos, Surulere</span></div>
+<div class="item"><span class="time">15:00</span>　Bathroom repair – Mr. Daniels<br><span class="muted" style="margin-left:64px">Lagos, Victoria Island</span></div></section>
+<section class="panel"><h2>◷　Recent Activity <span class="tag" style="float:right">View All</span></h2>
+<div class="item">🟢　<b>INV-1045</b>　 Paid – R 1,500<br><span class="muted">　　 Mr. Mokoena · 19 Nov 2026</span></div>
+<div class="item">▤　<b>QUOTE-208</b>　 Sent – R 2,800<br><span class="muted">　　 Mrs. Okafor · 19 Nov 2026</span></div>
+<div class="item">⚒　<b>JOB-317</b>　 <span style="color:#e99a00">In Progress</span><br><span class="muted">　　 Mr. Daniels · 20 Nov 2026</span></div></section>
+</div>
+<div class="rightcol">
+<section class="business"><div style="height:85px;background:linear-gradient(120deg,#dbeeff,#f4f7fa);border-radius:10px;display:grid;place-items:center;font-size:36px">💧🔧</div><h2>CHELO PLUMBING SERVICES</h2><p>📍　Lagos, Nigeria</p><p>☎　+234 806 123 4567</p><p>✉　info@chelplumbing.com</p><button data-action="Edit Business Profile">✎　Edit Business Profile</button></section>
+<section class="promo"><h2>🚀　Grow Your Business</h2><p>Get more customers this week!</p><button data-action="Create a marketing post">Create a Marketing Post</button></section>
+<section class="panel"><h2>◎　Follow-ups <span style="color:#e33">(3)</span></h2><div class="item">🔴　Payment reminder – INV-1038 (R 1,200)</div><div class="item">🟠　Quote follow-up – Mrs. Okafor</div><div class="item">🟠　Check on completed job – Mr. Daniels</div></section>
+</div>
+</div>
+</main></div>
+<script>
+const notice=document.getElementById('notice');
+function show(msg){notice.textContent=msg;notice.classList.add('show');window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');show(b.dataset.page+' section selected. This prototype uses sample data; this section is ready for review.');}));
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.action+' selected. This is a demonstration action in the prototype.')));
+function send(){let v=document.getElementById('chat').value.trim();if(!v)return;document.getElementById('reply').textContent='CHELO Assistant: I can help with “'+v+'”. In the full platform, this is where the business assistant will guide you step by step.';document.getElementById('chat').value='';}
+document.getElementById('send').addEventListener('click',send);document.getElementById('chat').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+</script>
+</body></html>
