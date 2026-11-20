@@ -16,7 +16,7 @@ main{padding:22px;min-width:0}.top{display:flex;justify-content:space-between;al
 .metrics{display:grid;grid-template-columns:repeat(5,minmax(125px,1fr));gap:12px;margin-bottom:16px}.metric,.panel,.business,.promo{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 4px 16px #1a31500a}.metric{font-weight:bold}.metric b{display:block;font-size:25px;margin-top:5px}.metric:nth-child(1){background:#e7f2ff}.metric:nth-child(2){background:#e4f8ef}.metric:nth-child(3){background:#fff4d9}.metric:nth-child(4){background:#ffe8e9}.metric:nth-child(5){background:#f0eaff}
 h2{font-size:18px;margin:0 0 14px}.quick{margin-bottom:15px}.actions{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.actions button,.primary{border:0;border-radius:13px;background:#0875ed;color:white;padding:15px 8px;font-weight:bold;cursor:pointer}.actions button:first-child{background:#08ad70}.actions button:nth-child(4){background:#7950d8}.actions button:nth-child(5){background:#e8e0ff;color:#5335a6}
 .columns{display:grid;grid-template-columns:1.1fr 1.1fr .9fr;gap:14px;align-items:start}.panel{margin-bottom:13px}.assistantbox{display:flex;gap:13px;align-items:center;background:#f7faff;border-radius:13px;padding:13px;margin-bottom:14px}.bot{font-size:42px}.suggestions{display:grid;gap:8px}.suggestions button{background:#fff;border:1px solid #d9e2f0;border-radius:24px;padding:10px;text-align:left;cursor:pointer}
-.item{padding:10px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.time{font-weight:bold;display:inline-block;width:58px}.tag{color:#0875ed;font-weight:bold}.business img{max-width:100%}.business h2{margin:10px 0}.business p{margin:8px 0}.business button{width:100%;background:white;color:#0875ed;border:1px solid #0875ed;border-radius:10px;padding:11px;font-weight:bold;cursor:pointer}.promo{background:#fff8e9;margin-bottom:13px}.promo button{background:#0875ed;color:white;border:0;border-radius:9px;padding:10px;cursor:pointer}.chatrow{display:flex;gap:6px;margin-top:14px}.chatrow input{min-width:0;flex:1;border:1px solid #d5deeb;border-radius:10px;padding:12px}.chatrow button{border:0;background:#0875ed;color:white;border-radius:10px;padding:0 16px;cursor:pointer}
+.item{padding:10px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.time{font-weight:bold;display:inline-block;width:58px}.tag{color:#0875ed;font-weight:bold}.business img{max-width:100%}.business h2{margin:10px 0}.business p{margin:8px 0}.business button{width:100%;background:white;color:#0875ed;border:1px solid #0875ed;border-radius:10px;padding:11px;font-weight:bold;cursor:pointer}.promo{background:#fff8e9;margin-bottom:13px}.promo button{background:#0875ed;color:white;border:0;border-radius:9px;padding:10px;cursor:pointer}.chatrow{display:flex;gap:6px;margin-top:14px}.chatrow input{min-width:0;flex:1;border:1px solid #d5deeb;border-radius:10px;padding:12px}.chatrow button{border:0;background:#0875ed;color:white;border-radius:10px;padding:0 16px;cursor:pointer}#reply{white-space:pre-line;line-height:1.55;background:#f7faff;border-radius:12px;padding:12px;margin-top:10px}
 .notice{display:none;background:#e8f5ff;border:1px solid #b8dcff;padding:12px;border-radius:10px;margin:0 0 14px}.notice.show{display:block}
 @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.columns{grid-template-columns:1fr 1fr}.rightcol{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}}
 @media(max-width:700px){.app{grid-template-columns:1fr}aside{padding:12px}.brand{font-size:21px}.brand span{display:inline;margin-left:8px}nav{display:flex;overflow:auto}nav button{white-space:nowrap;padding:10px} .asidefoot{display:none}main{padding:14px}.top{align-items:flex-start}.top h1{font-size:20px}.profile{font-size:12px}.metrics{grid-template-columns:repeat(2,1fr);gap:8px}.metric{padding:12px}.metric b{font-size:21px}.actions{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}.rightcol{grid-column:auto;display:block}}
@@ -66,7 +66,140 @@ const notice=document.getElementById('notice');
 function show(msg){notice.textContent=msg;notice.classList.add('show');window.scrollTo({top:0,behavior:'smooth'});}
 document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');show(b.dataset.page+' section selected. This prototype uses sample data; this section is ready for review.');}));
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.action+' selected. This is a demonstration action in the prototype.')));
-function send(){let v=document.getElementById('chat').value.trim();if(!v)return;document.getElementById('reply').textContent='CHELO Assistant: I can help with “'+v+'”. In the full platform, this is where the business assistant will guide you step by step.';document.getElementById('chat').value='';}
+function getHelpReply(question){
+  const q=question.toLowerCase();
+
+  if(q.includes('quote') || q.includes('quotation') || q.includes('kwotasie')){
+    return `CHELO Assistant:
+Here is how to create a customer quote:
+
+1. Open Quotes in the menu on the left.
+2. Choose New Quote. You can also use New Quote under Quick Actions on the Dashboard.
+3. Select an existing customer, or add the customer's details.
+4. Add the products or services you will provide.
+5. Enter the quantity, price and any extra details.
+6. Check the total and the customer's details.
+7. Save the quote. In the full platform, you will then be able to preview and send it to the customer.
+
+Would you like help with the next step?`;
+  }
+
+  if(q.includes('invoice') || q.includes('faktuur')){
+    return `CHELO Assistant:
+To create an invoice:
+
+1. Choose Invoices from the left menu, or Create Invoice under Quick Actions.
+2. Select the customer.
+3. Add the work or products supplied.
+4. Enter quantities, prices, payment terms and the due date.
+5. Check the total and the customer's details.
+6. Save the invoice. The full platform will let you preview and send it.
+
+Would you like help with a payment follow-up?`;
+  }
+
+  if(q.includes('customer') || q.includes('client') || q.includes('kliënt')){
+    return `CHELO Assistant:
+To add a customer:
+
+1. Choose Customers from the left menu.
+2. Select Add Customer.
+3. Enter the customer's name and contact details.
+4. Add the address or any useful notes.
+5. Check the details and save the customer.
+
+You can then select this customer when preparing a quote or invoice.`;
+  }
+
+  if(q.includes('book') || q.includes('booking') || q.includes('appointment')){
+    return `CHELO Assistant:
+To arrange a booking:
+
+1. Choose Bookings from the left menu, or Book Job under Quick Actions.
+2. Select the customer.
+3. Enter the job or service required.
+4. Choose the date and time.
+5. Add the job address and any notes.
+6. Review and save the booking.
+
+Would you like help with jobs already booked?`;
+  }
+
+  if(q.includes('job') || q.includes('work order') || q.includes('werk')){
+    return `CHELO Assistant:
+To check or manage a job:
+
+1. Choose Orders & Jobs from the left menu.
+2. Find the job you want to manage.
+3. Open it to review the customer, job details and scheduled date.
+4. Update its status as work progresses.
+5. Save your changes.
+
+The figures and jobs currently shown are sample demonstration data.`;
+  }
+
+  if(q.includes('follow') || q.includes('reminder') || q.includes('unpaid') || q.includes('payment')){
+    return `CHELO Assistant:
+To follow up with a customer:
+
+1. Choose Follow-ups from the left menu.
+2. Find the payment reminder or quote follow-up.
+3. Open the relevant customer or invoice details.
+4. Contact the customer using the details on the record.
+5. Record the outcome and the next follow-up date.
+
+The current reminders are examples in this prototype.`;
+  }
+
+  if(q.includes('marketing') || q.includes('post') || q.includes('advert')){
+    return `CHELO Assistant:
+To prepare a marketing post:
+
+1. Choose Marketing from the left menu.
+2. Select Create Marketing Post.
+3. Add a short description of the service you want to promote.
+4. Include your business contact details and a clear next step for customers.
+5. Review the post before publishing.
+
+Publishing to social media is not connected in this demonstration prototype.`;
+  }
+
+  if(q.includes('where') || q.includes('find') || q.includes('cannot find') || q.includes('unable to find') || q.includes('help')){
+    return `CHELO Assistant:
+I can guide you around the dashboard.
+
+• Quotes — prepare customer quotes.
+• Invoices — prepare customer invoices.
+• Customers — view or add customers.
+• Orders & Jobs — manage work.
+• Bookings — arrange appointments.
+• Follow-ups — track reminders.
+• Marketing — prepare promotional posts.
+
+Tell me the name of the function you are looking for, and I will guide you step by step.`;
+  }
+
+  return `CHELO Assistant:
+I can help you use the dashboard step by step.
+
+You can ask me things like:
+• How do I create a quote?
+• How do I create an invoice?
+• How do I add a customer?
+• How do I book a job?
+• How do I follow up on an unpaid invoice?
+• Where can I find my bookings?
+
+Tell me which task you want to do, and I will guide you.`;
+}
+
+function send(){
+  const input=document.getElementById('chat');
+  const v=input.value.trim();
+  if(!v)return;
+  document.getElementById('reply').textContent=getHelpReply(v);
+  input.value='';
+}
 document.getElementById('send').addEventListener('click',send);document.getElementById('chat').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
 </script>
 </body></html>
